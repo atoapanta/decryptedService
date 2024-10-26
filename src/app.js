@@ -16,6 +16,7 @@ const app = express();
 //Middlewares
 app.use(helmet());
 app.use(morgan("combined"));
+app.set("trust proxy", 2);
 app.use(compression());
 app.use(limiter);
 app.use(cors(corsConfig));
@@ -27,5 +28,8 @@ app.use("/decrypted-service/api/V1", DecryptedRoute);
 
 //Config Swagger
 setupSwagger(app);
+
+//Public statics
+app.use(express.static(path.join(process.cwd(), "public")));
 
 export { app };
